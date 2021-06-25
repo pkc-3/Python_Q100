@@ -14,10 +14,10 @@
 
 top = list(map(str, input().split()))
 
-print(top[0])
+print("탑 입력값: ", top[0])
 rule = str(input())
 
-print(rule[0])
+print("룰 입력값: ", rule[0])
 
 # top[0].index[rule[0]] < top[0].index[rule[1]] < top[0].index[rule[2]]: 탑 0번은 가능
 
@@ -27,9 +27,24 @@ print(rule[0])
 # 탑.index[규칙[0]] <  탑.index[규칙[1]] < 탑.index[규칙[2]] : 가능
 
 
-for i in range(0, len(top)):
-    for j in range(0, len(rule)+2):
-        if(top[i].index[rule[j]] < top[i].index[rule[j+1]] < top[i].index[rule[j+2]]):
-            print("가능")
-        else:
-            print("불가능")
+def solution(top, rule):
+    answer = []
+    for part_block in top:
+        answer.append(check_order(part_block, rule))
+    return answer
+
+
+def check_order(part_block, rule):
+    tmp = rule.index(rule[0])
+    for text in part_block:
+        if text in rule:
+            if tmp > rule.index(text):
+                return '불가능'
+            tmp = rule.index(text)
+    return '가능'
+
+
+top = ['ABCDEF', 'BCAD', 'ADEFQRX', 'BEDFG', 'AEBFDGCH']
+rule = 'ABCD'
+
+print(solution(top, rule))
